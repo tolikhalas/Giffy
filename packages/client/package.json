@@ -1,0 +1,33 @@
+{
+  "name": "@giffy/client",
+  "version": "0.1.0",
+  "description": "Lerna monorepo vue vuetify client package",
+  "keywords": [
+    "lerna",
+    "monorepo",
+    "vue",
+    "vuetify",
+    "typescript"
+  ],
+  "author": "Anatolii Halas <tolikgalas@gmail.com>",
+  "homepage": "https://github.com/tolikhalas/Giffy#readme",
+  "license": "SEE LICENSE IN ROOT DIR",
+  "main": "lib/client.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tolikhalas/Giffy.git"
+  },
+  "scripts": {
+    "test": "node ./__tests__/client.test.js"
+  },
+  "bugs": {
+    "url": "https://github.com/tolikhalas/Giffy/issues"
+  }
+}
