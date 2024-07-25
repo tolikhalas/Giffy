@@ -28,6 +28,14 @@ jobs:
       - name: "Checkout repository"
         uses: actions/checkout@v3
 
+      # ======================================================
+      # Set up Bun
+      # ======================================================
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: "latest"
+
       - name: "Deploy to staging"
         uses: burnett01/rsync-deployments@23a557dceb19f9bb960ef40cf75cab5e9b37ec1f
         with:
@@ -68,6 +76,14 @@ jobs:
     steps:
       - name: "Checkout repository"
         uses: actions/checkout@v3
+
+      # ======================================================
+      # Set up Bun
+      # ======================================================
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: "latest"
 
       - name: "Deploy to production"
         uses: burnett01/rsync-deployments@23a557dceb19f9bb960ef40cf75cab5e9b37ec1f
