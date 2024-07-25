@@ -3,14 +3,19 @@ name: Continuous Integration
 on:
   push:
     paths:
-      - "packages/**"
-  workflow_dispatch:
+      - "web/packages/**"
   pull_request:
     paths:
-      - "packages/**"
+      - "web/packages/**"
     branches:
       - main
       - development
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: bash
+    working-directory: ./web
 
 jobs:
   test:
@@ -31,7 +36,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.bun
-          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          key: ${{ runner.os }}-bun-${{ hashFiles('web/packages/**/bun.lockb') }}
           restore-keys: |
             ${{ runner.os }}-bun-
 
@@ -40,9 +45,9 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            **\node_modules
+            web/packages/**/node_modules
             !node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/bun.lockb') }}
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('web/packages/**/bun.lockb') }}
           restore-keys: |
             ${{ runner.os }}-node-modules-
 
@@ -74,7 +79,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.bun
-          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          key: ${{ runner.os }}-bun-${{ hashFiles('web/packages/**/bun.lockb') }}
           restore-keys: |
             ${{ runner.os }}-bun-
 
@@ -83,9 +88,9 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            **\node_modules
+            web/packages/**/node_modules
             !node_modules
-          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/bun.lockb') }}
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('web/packages/**/bun.lockb') }}
           restore-keys: |
             ${{ runner.os }}-node-modules-
 
