@@ -55,6 +55,9 @@ jobs:
         with:
           ref: infra
 
+      - name: Set execute permission
+        run: chmod +x infra/instances/staging/create_staging_resource.sh
+
       # ======================================================
       # Terraform Setup
       #
