@@ -82,7 +82,7 @@ jobs:
       # as we will need it later to fetch the hostname of the
       # staging server
       # ======================================================
-      - name: 'Create staging environment resource file'
+      - name: "Create staging environment resource file"
         id: create_resource_file
         working-directory: infra/instances/staging/
         run: |
@@ -182,7 +182,7 @@ jobs:
       # Checkout the PR branch so that we can deploy it
       # ======================================================
       - uses: actions/checkout@v2
-        name: 'Checkout PR branch'
+        name: "Checkout PR branch"
         with:
           ref: ${{ steps.verify_pr_number.outputs.result }}
 
@@ -195,11 +195,24 @@ jobs:
           bun-version: "latest"
 
       # ======================================================
+      # Create necessary directories & set permissions
+      # ======================================================
+      - uses: JimCronqvist/action-ssh@7737f1192ddd8376686e9d6354dea44592c942bf
+        name: Create & setup required resources
+        with:
+          hosts: "${{ secrets.REMOTE_USER }}@${{ steps.apply_output.outputs.stdout }}"
+          privateKey: ${{ secrets.SSH_PRIVATE_KEY_STAGING }}
+          command: |
+            sudo mkdir -p /var/app
+            sudo chown ${{ secrets.REMOTE_USER }}:${{ secrets.REMOTE_USER }} /var/app
+            sudo chmod 755 /var/app
+
+      # ======================================================
       # We sync the files in this directory to the staging
       # server. We use the `rsync` command to do this.
       # ======================================================
       - uses: burnett01/rsync-deployments@23a557dceb19f9bb960ef40cf75cab5e9b37ec1f
-        name: 'Deploy to staging'
+        name: "Deploy to staging"
         with:
           switches: -avzr --delete
           path: ./web
@@ -215,7 +228,7 @@ jobs:
       - uses: JimCronqvist/action-ssh@7737f1192ddd8376686e9d6354dea44592c942bf
         name: Execute SSH commands on remote server
         with:
-          hosts: '${{ secrets.REMOTE_USER }}@${{ steps.apply_output.outputs.stdout }}'
+          hosts: "${{ secrets.REMOTE_USER }}@${{ steps.apply_output.outputs.stdout }}"
           privateKey: ${{ secrets.SSH_PRIVATE_KEY_STAGING }}
           command: |
             cd /var/app/web
