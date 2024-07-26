@@ -4,6 +4,12 @@
   "workspaces": [
     "packages/*"
   ],
+  "scripts": {
+    "dev": "NODE_NO_WARNINGS=1 lerna run dev --parallel",
+    "build": "NODE_NO_WARNINGS=1 lerna run build --parallel",
+    "test": "NODE_NO_WARNINGS=1 lerna run build && NODE_NO_WARNINGS=1 lerna run test",
+    "lint": "NODE_NO_WARNINGS=1 lerna run build && NODE_NO_WARNINGS=1 lerna run lint"
+  },
   "dependencies": {},
   "devDependencies": {
     "lerna": "^8.1.6"

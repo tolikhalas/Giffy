@@ -1,0 +1,96 @@
+name: Continuous Integration
+
+on:
+  push:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+      - development
+
+jobs:
+  test:
+    name: Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: "latest"
+
+      - name: Cache Bun modules
+        id: cache-bun-modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.bun
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            **\node_modules
+            !node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+
+      - name: Install dependencies
+        run: bun install
+        if: steps.cache-node-modules.outputs.cache-hit != 'true' || steps.cache-bun-modules.outputs.cache-hit != 'true'
+
+      - name: Run build
+        run: bun run build
+
+      - name: Run tests
+        run: bun run test
+
+  lint:
+    name: Linting
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v1
+        with:
+          bun-version: "latest"
+
+      - name: Cache Bun modules
+        id: cache-bun-modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.bun
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+
+      - name: Cache node_modules
+        id: cache-node-modules
+        uses: actions/cache@v3
+        with:
+          path: |
+            **\node_modules
+            !node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/bun.lockb') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+
+      - name: Install dependencies
+        run: bun install
+        if: steps.cache-node-modules.outputs.cache-hit != 'true' || steps.cache-bun-modules.outputs.cache-hit != 'true'
+
+      - name: Run build
+        run: bun run build
+
+      - name: Run lint
+        run: bun run lint
