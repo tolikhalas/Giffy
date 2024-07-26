@@ -3,7 +3,7 @@ terraform {
     organization = "tolikhalas"
 
     workspaces {
-      name = "giffy-ci-cd-staging"
+      name = "giffy-staging"
     }
   }
 
@@ -24,7 +24,7 @@ terraform {
 
 provider "aws" {
   profile = "default"
-  region  = "eu-north-1"
+  region  = "us-east-1"
 }
 
 variable "staging_public_key" {
@@ -57,19 +57,19 @@ resource "aws_key_pair" "staging_key" {
 
 # This is the main staging environment. We will deploy to this the changes
 # to the main branch before deploying to the production environment.
-resource "aws_instance" "staging_cicd_demo" {
+resource "aws_instance" "staging_giffy" {
   # Read the AMI id "through" the random_id resource to ensure that
   # both will change together.
   ami                    = random_id.server.keepers.ami_id
   instance_type          = "t2.micro"
-  vpc_security_group_ids = ["sg-0d2411db69a112a30"]
+  vpc_security_group_ids = ["sg-0ae68ce633899b333"]
   key_name               = aws_key_pair.staging_key.key_name
 
   tags = {
-    "Name" = "staging_cicd_demo-${random_id.server.hex}"
+    "Name" = "staging_giffy-${random_id.server.hex}"
   }
 }
 
 output "staging_dns" {
-  value = aws_instance.staging_cicd_demo.public_dns
+  value = aws_instance.staging_giffy.public_dns
 }

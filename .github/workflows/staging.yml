@@ -206,7 +206,7 @@ jobs:
           remote_path: /var/app
           remote_host: ${{ steps.apply_output.outputs.stdout }}
           remote_user: ${{ secrets.REMOTE_USER }}
-          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY_STAGING }}
 
       # ======================================================
       # Once we have the new files synced to the staging server
@@ -216,7 +216,7 @@ jobs:
         name: Execute SSH commands on remote server
         with:
           hosts: '${{ secrets.REMOTE_USER }}@${{ steps.apply_output.outputs.stdout }}'
-          privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
+          privateKey: ${{ secrets.SSH_PRIVATE_KEY_STAGING }}
           command: |
             cd /var/app/web
             bun install

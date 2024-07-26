@@ -42,15 +42,15 @@ jobs:
           switches: -avzr --delete
           path: ./web
           remote_path: /var/app
-          remote_host: ${{ secrets.HOSTNAME }}
+          remote_host: ${{ secrets.HOSTNAME_STAGING }}
           remote_user: ${{ secrets.REMOTE_USER }}
-          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY_STAGING }}
 
       - name: "Execute SSH commands on remote server"
         uses: JimCronqvist/action-ssh@7737f1192ddd8376686e9d6354dea44592c942bf
         with:
-          hosts: "${{ secrets.REMOTE_USER }}@${{ secrets.HOSTNAME }}"
-          privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
+          hosts: "${{ secrets.REMOTE_USER }}@${{ secrets.HOSTNAME_STAGING }}"
+          privateKey: ${{ secrets.SSH_PRIVATE_KEY_STAGING }}
           command: |
             cd /var/app/web
             bun install
@@ -91,15 +91,15 @@ jobs:
           switches: --avzr --delete
           path: ./web
           remote_path: /var/app
-          remote_host: ${{ secrets.HOSTNAME }}
+          remote_host: ${{ secrets.HOSTNAME_PRODUCTION }}
           remote_user: ${{ secrets.REMOTE_USER }}
-          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY_PRODUCTION }}
 
       - name: "Execute SSH commands on remote server"
         uses: JimCronqvist/action-ssh@7737f1192ddd8376686e9d6354dea44592c942bf
         with:
-          hosts: "${{ secrets.REMOTE_USER }}@${{ secrets.HOSTNAME }}"
-          privateKey: ${{ secrets.SSH_PRIVATE_KEY }}
+          hosts: "${{ secrets.REMOTE_USER }}@${{ secrets.HOSTNAME_PRODUCTION }}"
+          privateKey: ${{ secrets.SSH_PRIVATE_KEY_PRODUCTION }}
           command: |
             cd /var/app/web
             bun install

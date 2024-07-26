@@ -49,7 +49,7 @@ _exit_1() {
 # Run Program
 ###############################################################################
 
-# Creates a random identifier RANDOMID then creates a copy of 
+# Creates a random identifier RANDOMID then creates a copy of
 # extra_staging.tf.example and renames it extra_staging_RANDOMID.tf
 # The copy is also modified to replace the RANDOMID with the actual random identifier
 _main() {
