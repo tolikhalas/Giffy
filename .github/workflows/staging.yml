@@ -55,9 +55,6 @@ jobs:
         with:
           ref: infra
 
-      - name: Set execute permission
-        run: chmod +x infra/instances/staging/create_staging_resource.sh
-
       # ======================================================
       # Terraform Setup
       #
@@ -89,6 +86,7 @@ jobs:
         id: create_resource_file
         working-directory: infra/instances/staging/
         run: |
+          chmod +x infra/instances/staging/create_staging_resource.sh
           OUTPUT="$(./create_staging_resource.sh PR_${{ github.event.inputs.PR_number }} | jq -r .terraform_expected_output)"
           echo "::set-output name=STAGING_RESOURCE_NAME::$OUTPUT"
 
