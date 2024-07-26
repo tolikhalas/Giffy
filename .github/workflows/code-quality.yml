@@ -1,12 +1,15 @@
-name: Code Quality
+name: Code Quality Workflow
 
 on:
   push:
+    paths:
+      - "web/packages/**"
   pull_request:
+    paths:
+      - "web/packages/**"
     branches: [main, development]
   schedule:
     - cron: "0 0 * * 1"
-
 
 jobs:
   codeql:
